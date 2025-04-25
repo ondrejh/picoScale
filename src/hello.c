@@ -18,11 +18,17 @@ int main() {
   pico_led_init();
   bool led = false;
 
-  while(true) {
-    sleep_ms(LED_DELAY_MS);
+  while (!stdio_usb_connected()) {
+    led = !led;
+    pico_set_led(led);
+    sleep_ms(100);
+  }
+
+  while (true) {
     led = !led;
     pico_set_led(led);
     printf("Hello, world!\n");
+    sleep_ms(LED_DELAY_MS);
   }
 
   return 0;
