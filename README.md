@@ -1,12 +1,28 @@
 # ToDo
 
-Make standalone USB serial Hello World program.
+- [ ] Make standalone USB serial Hello World program.
 
 # Compiling
 
 ```code
 mkdir build
 cd build
-cmake ../src/ -DPICO_SDK_PATH="../ext/pico-sdk/"
-make hello
+cmake ../src/
+make proj
+```
+
+## Installing picotool locally
+
+To get rid of annoyng message "it is recommended to build and install picotool separately", we can install it separately (it become a submodule of project).
+
+```code
+cd ext/picotool
+git submodule update --init
+sudo apt update
+sudo apt install build-essential pkg-config libusb-1.0-0-dev cmake
+mkdir build
+cd build
+cmake .. -DPICO_SDK_PATH=../../pico-sdk
+sudo make install
+picotool version
 ```

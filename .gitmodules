@@ -1,3 +1,6 @@
 [submodule "ext/pico-sdk"]
 	path = ext/pico-sdk
 	url = https://github.com/raspberrypi/pico-sdk.git
+[submodule "ext/picotool"]
+	path = ext/picotool
+	url = https://github.com/raspberrypi/picotool.git
