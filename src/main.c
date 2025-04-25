@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
+#include "class/cdc/cdc_device.h"
 
 #include "utils.h"
 
@@ -37,13 +38,19 @@ int main() {
       t = now;
     }
 
+    // get serial input (non blocking)
+    if (connected) {
+      while ( tud_cdc_available() ) {
+        // echo
+        char c = getchar();
+        printf("%c", c);
+      }
+    }
+
     // slow timer
     if ( now - t >= td ) {
       t = now;
       pico_set_led( led = !led );
-      if (connected) {
-        printf("Hello, world!\n");
-      }
     }
   } // while (true)
 
