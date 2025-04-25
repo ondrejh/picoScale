@@ -7,6 +7,8 @@
 #define LED_FAST_MS 100
 #define LED_SLOW_MS 1000
 
+#define BUFFER_MAX_LEN 1024
+
 void pico_led_init(void) {
   gpio_init(PICO_DEFAULT_LED_PIN);
   gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
@@ -26,6 +28,9 @@ int main() {
   uint32_t t = millis();
   uint32_t td = LED_FAST_MS;
 
+  char buff[BUFFER_MAX_LEN];
+  int bufp = 0;
+
   while (true) {
     // grab current values
     uint32_t now = millis();
@@ -42,9 +47,23 @@ int main() {
     if (connected) {
       while ( tud_cdc_available() ) {
         // echo
-        char c = getchar();
-        printf("%c", c);
+        char *c = &buff[bufp++];
+        *c = getchar();
+        if ((*c == '\n') || (*c == '\r')) {
+          *c = '\0';
+          printf("%s\n", buff);
+          printf("%d\n", bufp - 1);
+          bufp = 0;
+        }
+        else {
+          if (bufp >= BUFFER_MAX_LEN) {
+            bufp = BUFFER_MAX_LEN - 1;
+          }
+        }
       }
+    }
+    else {
+      bufp = 0;
     }
 
     // slow timer
