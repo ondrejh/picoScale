@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 
-#define LED_DELAY_MS 250
+#include "utils.h"
+
+#define LED_FAST_MS 100
+#define LED_SLOW_MS 1000
 
 void pico_led_init(void) {
   gpio_init(PICO_DEFAULT_LED_PIN);
@@ -13,23 +16,36 @@ void pico_set_led(bool led_on) {
 }
 
 int main() {
+  stdio_init_all();
 
-  setup_default_uart();
   pico_led_init();
-  bool led = false;
 
-  while (!stdio_usb_connected()) {
-    led = !led;
-    pico_set_led(led);
-    sleep_ms(100);
-  }
+  bool led = false;
+  bool connected = false;
+  uint32_t t = millis();
+  uint32_t td = LED_FAST_MS;
 
   while (true) {
-    led = !led;
-    pico_set_led(led);
-    printf("Hello, world!\n");
-    sleep_ms(LED_DELAY_MS);
-  }
+    // grab current values
+    uint32_t now = millis();
+    bool con = stdio_usb_connected();
+
+    // connected status has changed
+    if (con != connected) {
+      connected = con;
+      td = connected ? LED_SLOW_MS : LED_FAST_MS;
+      t = now;
+    }
+
+    // slow timer
+    if ( now - t >= td ) {
+      t = now;
+      pico_set_led( led = !led );
+      if (connected) {
+        printf("Hello, world!\n");
+      }
+    }
+  } // while (true)
 
   return 0;
 }
