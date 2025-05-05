@@ -2,6 +2,7 @@
 #include "pico/stdlib.h"
 #include "class/cdc/cdc_device.h"
 
+#include "../ext/cjson/cJSON.h"
 #include "utils.h"
 
 #define LED_FAST_MS 100
@@ -16,6 +17,29 @@ void pico_led_init(void) {
 
 void pico_set_led(bool led_on) {
   gpio_put(PICO_DEFAULT_LED_PIN, led_on);
+}
+
+void parse_json(const char *json_string) {
+  // Parse the JSON string
+  cJSON *json = cJSON_Parse(json_string);
+  if (json == NULL) {
+    printf("Error parsing JSON\n");
+    return;
+  }
+
+  // Extract values from JSON
+  cJSON *name = cJSON_GetObjectItem(json, "name");
+  cJSON *age = cJSON_GetObjectItem(json, "age");
+
+  if (cJSON_IsString(name) && name->valuestring != NULL) {
+    printf("Name: %s\n", name->valuestring);
+  }
+  if (cJSON_IsNumber(age)) {
+    printf("Age: %f\n", age->valuedouble);
+  }
+
+  printf(cJSON_PrintUnformatted(json));
+  cJSON_Delete(json);
 }
 
 int main() {
@@ -51,8 +75,9 @@ int main() {
         *c = getchar();
         if ((*c == '\n') || (*c == '\r')) {
           *c = '\0';
-          printf("%s\n", buff);
-          printf("%d\n", bufp - 1);
+          parse_json(buff);
+          //printf("%s\n", buff);
+          //printf("%d\n", bufp - 1);
           bufp = 0;
         }
         else {

@@ -1,6 +1,8 @@
 # ToDo
 
-- [ ] Make standalone USB serial Hello World program.
+- [ ] Connect scale sensor.
+- [x] Add some JSON parser or library to the project.
+- [x] Make standalone USB serial Hello World program.
 
 # Compiling
 

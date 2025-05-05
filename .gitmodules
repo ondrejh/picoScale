@@ -4,3 +4,6 @@
 [submodule "ext/picotool"]
 	path = ext/picotool
 	url = https://github.com/raspberrypi/picotool.git
+[submodule "ext/cjson"]
+	path = ext/cjson
+	url = https://github.com/DaveGamble/cJSON.git

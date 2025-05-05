@@ -8,6 +8,10 @@ cmake_minimum_required(VERSION 3.13)
 set(PICO_SDK_PATH ${CMAKE_CURRENT_LIST_DIR}/../ext/pico-sdk)
 include(pico_sdk_import.cmake)
 
+#target_include_directories(${PROJECT_NAME}
+#  ../ext/cjson
+#)
+
 # Set project name
 project(${PROJECT_NAME} C CXX ASM)
 set(CMAKE_C_STANDARD 11)
@@ -18,10 +22,10 @@ pico_sdk_init()
 
 # rest of your project
 add_executable(${PROJECT_NAME}
-  main.c
+  main.c ../ext/cjson/cJSON.c
 )
 
-# Add pico_stdlib library which aggregates commonly used features
+# add pico_stdlib library which aggregates commonly used features
 target_link_libraries(${PROJECT_NAME}
   pico_stdlib
 )
