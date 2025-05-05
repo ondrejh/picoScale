@@ -9,8 +9,7 @@ set(PICO_SDK_PATH ${CMAKE_CURRENT_LIST_DIR}/../ext/pico-sdk)
 include(pico_sdk_import.cmake)
 
 #target_include_directories(${PROJECT_NAME}
-#  ../ext/cjson
-#)
+set(CJSON_PATH ${CMAKE_CURRENT_LIST_DIR}/../ext/cjson)
 
 # Set project name
 project(${PROJECT_NAME} C CXX ASM)
@@ -22,7 +21,17 @@ pico_sdk_init()
 
 # rest of your project
 add_executable(${PROJECT_NAME}
-  main.c ../ext/cjson/cJSON.c
+  main.c
+)
+
+# add external dirrectoris (for headers)
+target_include_directories(${PROJECT_NAME} PRIVATE
+  ${CJSON_PATH}
+)
+
+# add sources
+target_sources(${PROJECT_NAME} PRIVATE
+  ${CJSON_PATH}/cJSON.c
 )
 
 # add pico_stdlib library which aggregates commonly used features

@@ -2,7 +2,8 @@
 #include "pico/stdlib.h"
 #include "class/cdc/cdc_device.h"
 
-#include "../ext/cjson/cJSON.h"
+//#include "../ext/cjson/cJSON.h"
+#include "cJSON.h"
 #include "utils.h"
 
 #define LED_FAST_MS 100
