@@ -22,7 +22,11 @@ pico_sdk_init()
 # rest of your project
 add_executable(${PROJECT_NAME}
   main.c
+  ws2812.c
+  ws2812.pio
 )
+
+pico_generate_pio_header(${PROJECT_NAME} ${CMAKE_CURRENT_LIST_DIR}/../ext/pico-examples/pio/ws2812/ws2812.pio)
 
 # add external dirrectoris (for headers)
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -37,6 +41,7 @@ target_sources(${PROJECT_NAME} PRIVATE
 # add pico_stdlib library which aggregates commonly used features
 target_link_libraries(${PROJECT_NAME}
   pico_stdlib
+  hardware_pio
 )
 
 # Enable USB output, disable UART if desired

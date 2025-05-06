@@ -1,10 +1,25 @@
 # ToDo
 
 - [ ] Connect scale sensor.
+- [ ] Connect temperature sensor.
+- [x] Use WS2812 led, instead of pico buildin.
 - [x] Add some JSON parser or library to the project.
 - [x] Make standalone USB serial Hello World program.
 
-# Compiling
+
+# Schematic
+
+RP2040 Zero (WaveShare) | Signal
+--- | ---
+GP2 | HX711 SCK
+GP3 | HX711 DT (connect with voltage divider 5V / 3.3V)
+GP16 | WS2812 RGB LED DIN
+GP29 | DS18B20 DATA
+
+
+# Notes
+
+## Compiling
 
 ```code
 mkdir build

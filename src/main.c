@@ -2,7 +2,8 @@
 #include "pico/stdlib.h"
 #include "class/cdc/cdc_device.h"
 
-//#include "../ext/cjson/cJSON.h"
+#include "ws2812.pio.h"
+#include "ws2812.h"
 #include "cJSON.h"
 #include "utils.h"
 
@@ -12,12 +13,14 @@
 #define BUFFER_MAX_LEN 1024
 
 void pico_led_init(void) {
-  gpio_init(PICO_DEFAULT_LED_PIN);
-  gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
+  /*gpio_init(PICO_DEFAULT_LED_PIN);
+  gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);*/
+  ws2812_init(16);
 }
 
 void pico_set_led(bool led_on) {
-  gpio_put(PICO_DEFAULT_LED_PIN, led_on);
+  //gpio_put(PICO_DEFAULT_LED_PIN, led_on);
+  put_pixel(urgb_u32(0x00, led_on ? 0x10 : 0x00, 0x00));
 }
 
 void parse_json(const char *json_string) {

@@ -7,3 +7,6 @@
 [submodule "ext/cjson"]
 	path = ext/cjson
 	url = https://github.com/DaveGamble/cJSON.git
+[submodule "ext/pico-examples"]
+	path = ext/pico-examples
+	url = https://github.com/raspberrypi/pico-examples.git
