@@ -1,7 +1,10 @@
 # ToDo
 
 - [x] Connect scale sensor.
+- [ ] Test scale sensor, make in non-blocking.
+- [ ] Filter sensor data (either temp or scale)
 - [ ] Connect temperature sensor.
+- [ ] Add sensors to json response.
 - [x] Use WS2812 led, instead of pico buildin.
 - [x] Add some JSON parser or library to the project.
 - [x] Make standalone USB serial Hello World program.
