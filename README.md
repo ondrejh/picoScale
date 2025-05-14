@@ -1,6 +1,6 @@
 # ToDo
 
-- [ ] Connect scale sensor.
+- [x] Connect scale sensor.
 - [ ] Connect temperature sensor.
 - [x] Use WS2812 led, instead of pico buildin.
 - [x] Add some JSON parser or library to the project.

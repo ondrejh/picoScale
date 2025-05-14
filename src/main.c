@@ -5,10 +5,12 @@
 #include "ws2812.pio.h"
 #include "ws2812.h"
 #include "cJSON.h"
+#include "hx711.h"
 #include "utils.h"
 
 #define LED_FAST_MS 100
 #define LED_SLOW_MS 1000
+#define SCALE_READING_MS 200
 
 #define BUFFER_MAX_LEN 1024
 
@@ -50,14 +52,17 @@ int main() {
   stdio_init_all();
 
   pico_led_init();
+  hx711_init();
 
   bool led = false;
   bool connected = false;
   uint32_t t = millis();
   uint32_t td = LED_FAST_MS;
+  uint32_t tscale = t;
 
   char buff[BUFFER_MAX_LEN];
   int bufp = 0;
+  uint32_t raw = 0;
 
   while (true) {
     // grab current values
@@ -80,6 +85,7 @@ int main() {
         if ((*c == '\n') || (*c == '\r')) {
           *c = '\0';
           parse_json(buff);
+          printf("Raw: %ld\n", raw);
           //printf("%s\n", buff);
           //printf("%d\n", bufp - 1);
           bufp = 0;
@@ -99,6 +105,11 @@ int main() {
     if ( now - t >= td ) {
       t = now;
       pico_set_led( led = !led );
+    }
+
+    if ( now - tscale >= SCALE_READING_MS ) {
+      tscale = now;
+      raw = hx711_read();
     }
   } // while (true)
 

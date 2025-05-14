@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
   main.c
   ws2812.c
   ws2812.pio
+  hx711.c
 )
 
 pico_generate_pio_header(${PROJECT_NAME} ${CMAKE_CURRENT_LIST_DIR}/../ext/pico-examples/pio/ws2812/ws2812.pio)
