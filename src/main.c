@@ -48,6 +48,7 @@ void parse_json(const char *json_string) {
   cJSON_Delete(json);
 }
 
+
 int main() {
   stdio_init_all();
 
@@ -62,7 +63,17 @@ int main() {
 
   char buff[BUFFER_MAX_LEN];
   int bufp = 0;
-  uint32_t raw = 0;
+
+  cJSON *data = NULL;
+  cJSON *id = NULL;
+  cJSON *raw = NULL;
+
+  // inittialize data
+  data = cJSON_CreateObject();
+  id = cJSON_CreateString("brave new id");
+  cJSON_AddItemToObject(data, "id", id);
+  raw = cJSON_CreateNumber(0);
+  cJSON_AddItemToObject(data, "raw", raw);
 
   while (true) {
     // grab current values
@@ -85,10 +96,8 @@ int main() {
         if ((*c == '\n') || (*c == '\r')) {
           *c = '\0';
           parse_json(buff);
-          printf("Raw: %ld\n", raw);
-          //printf("%s\n", buff);
-          //printf("%d\n", bufp - 1);
           bufp = 0;
+          printf(cJSON_PrintUnformatted(data));
         }
         else {
           if (bufp >= BUFFER_MAX_LEN) {
@@ -109,7 +118,8 @@ int main() {
 
     if ( now - tscale >= SCALE_READING_MS ) {
       tscale = now;
-      raw = hx711_read();
+      int r = hx711_read();
+      cJSON_SetNumberValue(raw, r);//raw->valueint = rawv;
     }
   } // while (true)
 
