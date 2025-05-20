@@ -10,6 +10,8 @@
 - [x] Add some JSON parser or library to the project.
 - [x] Make standalone USB serial Hello World program.
 
+- [ ] Build simulation for PC.
+
 
 # Schematic
 
@@ -23,13 +25,28 @@ GP29 | DS18B20 DATA
 
 # Notes
 
+## Prepare
+
+```code
+git submodule update --init
+```
+
 ## Compiling
 
 ```code
 mkdir build
 cd build
 cmake ../src/
-make proj
+make
+```
+
+## Compiling simulation
+
+```code
+mkdir simul
+cd simul
+cmake ../src -DBUILD_FOR_PICO=OFF
+make
 ```
 
 ## Installing picotool locally

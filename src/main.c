@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifndef SIMUL
+
 #include "pico/stdlib.h"
 #include "class/cdc/cdc_device.h"
 
@@ -10,12 +13,16 @@
 #include "hx711.h"
 #include "utils.h"
 
+#endif // ifndef SIMUL
+
 #define LED_FAST_MS 100
 #define LED_SLOW_MS 1000
 #define SCALE_READING_MS 200
 
 #define BUFFER_MAX_LEN 1024
 
+
+#ifndef SIMUL
 
 // global JSON data
 
@@ -35,6 +42,7 @@ void pico_led_init(void) {
 void pico_set_led(bool led_on) {
   //gpio_put(PICO_DEFAULT_LED_PIN, led_on);
   put_pixel(urgb_u32(0x00, led_on ? 0x10 : 0x00, 0x00));
+
 }
 
 
@@ -150,3 +158,12 @@ int main() {
 
   return 0;
 }
+
+#else // ifndef SIMUL
+
+int main(void) {
+  printf("Hello simulation!\n");
+  return 0;
+}
+
+#endif // ifdef SIMUL
