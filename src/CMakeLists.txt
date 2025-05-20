@@ -5,14 +5,15 @@ cmake_minimum_required(VERSION 3.13)
 # Define the project name (once)
 set(PROJECT_NAME proj)
 
+#target_include_directories(${PROJECT_NAME}
+set(CJSON_PATH ${CMAKE_CURRENT_LIST_DIR}/../ext/cjson)
+
+
 if (BUILD_FOR_PICO)
   # initialize the SDK based on PICO_SDK_PATH
   # note: this must happen before project()
   set(PICO_SDK_PATH ${CMAKE_CURRENT_LIST_DIR}/../ext/pico-sdk)
   include(pico_sdk_import.cmake)
-
-  #target_include_directories(${PROJECT_NAME}
-  set(CJSON_PATH ${CMAKE_CURRENT_LIST_DIR}/../ext/cjson)
 
   # Set project name
   project(${PROJECT_NAME} C CXX ASM)
@@ -58,9 +59,15 @@ if (BUILD_FOR_PICO)
 else()
 
   project(${PROJECT_NAME})
-  set(SOURCES main.c)
+
+  set(SOURCES main.c ${CJSON_PATH}/cJSON.c)
+
   add_executable(${PROJECT_NAME} ${SOURCES})
+
   target_compile_definitions(${PROJECT_NAME} PRIVATE SIMUL)
-  set_target_properties(${PROJECT_NAME} PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED YES)
+
+  target_include_directories(${PROJECT_NAME} PRIVATE ${CJSON_PATH})
+
+  #set_target_properties(${PROJECT_NAME} PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED YES)
 
 endif()

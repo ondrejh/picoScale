@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #ifndef SIMUL
 
@@ -9,11 +11,13 @@
 
 #include "ws2812.pio.h"
 #include "ws2812.h"
-#include "cJSON.h"
 #include "hx711.h"
 #include "utils.h"
 
 #endif // ifndef SIMUL
+
+#include "cJSON.h"
+
 
 #define LED_FAST_MS 100
 #define LED_SLOW_MS 1000
@@ -22,8 +26,6 @@
 #define BUFFER_MAX_LEN 1024
 
 
-#ifndef SIMUL
-
 // global JSON data
 
 cJSON *data = NULL;     // --- root
@@ -31,6 +33,7 @@ cJSON *id = NULL;       //  |--- device id (string)
 cJSON *raw = NULL;      //  |--- scale sensor raw data (number)
 
 
+#ifndef SIMUL
 // basic board function
 
 void pico_led_init(void) {
@@ -44,7 +47,7 @@ void pico_set_led(bool led_on) {
   put_pixel(urgb_u32(0x00, led_on ? 0x10 : 0x00, 0x00));
 
 }
-
+#endif // ifndef SIMUL
 
 // json related functions
 
@@ -89,14 +92,20 @@ int printf_json(cJSON* json) {
 
 
 int main() {
+#ifndef SIMUL
   stdio_init_all();
 
   pico_led_init();
   hx711_init();
+#endif // ifndef SIMUL
 
   bool led = false;
   bool connected = false;
+#ifndef SIMUL
   uint32_t t = millis();
+#else
+  uint32_t t = 0;
+#endif
   uint32_t td = LED_FAST_MS;
   uint32_t tscale = t;
 
@@ -106,7 +115,9 @@ int main() {
   // inittialize data
   init_json_data();
 
+#ifndef SIMUL
   while (true) {
+
     // grab current values
     uint32_t now = millis();
     bool con = stdio_usb_connected();
@@ -154,16 +165,15 @@ int main() {
       int r = hx711_read();
       cJSON_SetNumberValue(raw, r);
     }
-  } // while (true)
 
-  return 0;
-}
+  } // while (true)
 
 #else // ifndef SIMUL
 
-int main(void) {
-  printf("Hello simulation!\n");
-  return 0;
-}
+  int size = printf_json(data);
+  printf("\n%ld\n", size);
 
 #endif // ifdef SIMUL
+
+  return 0;
+}

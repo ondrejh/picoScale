@@ -10,7 +10,7 @@
 - [x] Add some JSON parser or library to the project.
 - [x] Make standalone USB serial Hello World program.
 
-- [ ] Build simulation for PC.
+- [x] Build simulation for PC.
 
 
 # Schematic
