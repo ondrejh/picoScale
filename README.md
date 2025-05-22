@@ -1,7 +1,7 @@
 # ToDo
 
 - [x] Connect scale sensor.
-- [ ] Create global JSON data structure.
+- [x] Create global JSON data structure.
 - [ ] Test scale sensor, make it non-blocking.
 - [ ] Filter sensor data (either temp or scale)
 - [ ] Connect temperature sensor.

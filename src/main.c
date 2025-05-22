@@ -1,22 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <stdbool.h>
-
-#ifndef SIMUL
-
-#include "pico/stdlib.h"
-#include "class/cdc/cdc_device.h"
-
-#include "ws2812.pio.h"
-#include "ws2812.h"
-#include "hx711.h"
-#include "utils.h"
-
-#endif // ifndef SIMUL
-
-#include "cJSON.h"
+#include "include.h"
 
 
 #define LED_FAST_MS 100
@@ -24,13 +6,6 @@
 #define SCALE_READING_MS 200
 
 #define BUFFER_MAX_LEN 1024
-
-
-// global JSON data
-
-cJSON *data = NULL;     // --- root
-cJSON *id = NULL;       //  |--- device id (string)
-cJSON *raw = NULL;      //  |--- scale sensor raw data (number)
 
 
 #ifndef SIMUL
@@ -48,47 +23,6 @@ void pico_set_led(bool led_on) {
 
 }
 #endif // ifndef SIMUL
-
-// json related functions
-
-void parse_json(const char *json_string) {
-  // Parse the JSON string
-  cJSON *json = cJSON_Parse(json_string);
-  if (json == NULL) {
-    printf("Error parsing JSON\n");
-    return;
-  }
-
-  // Extract values from JSON
-  cJSON *name = cJSON_GetObjectItem(json, "name");
-  cJSON *age = cJSON_GetObjectItem(json, "age");
-
-  if (cJSON_IsString(name) && name->valuestring != NULL) {
-    printf("Name: %s\n", name->valuestring);
-  }
-  if (cJSON_IsNumber(age)) {
-    printf("Age: %f\n", age->valuedouble);
-  }
-
-  printf(cJSON_PrintUnformatted(json));
-  cJSON_Delete(json);
-}
-
-void init_json_data(void) {
-  data = cJSON_CreateObject();
-  id = cJSON_CreateString("brave new id");
-  cJSON_AddItemToObject(data, "id", id);
-  raw = cJSON_CreateNumber(0);
-  cJSON_AddItemToObject(data, "raw", raw);
-}
-
-int printf_json(cJSON* json) {
-  char *str = cJSON_PrintUnformatted(json);
-  printf("%s", str);
-  int size = strlen(str);
-  free(str);
-  return size;
-}
 
 
 int main() {
@@ -113,7 +47,7 @@ int main() {
   int bufp = 0;
 
   // inittialize data
-  init_json_data();
+  init_json_data("picoScale");
 
 #ifndef SIMUL
   while (true) {
@@ -162,8 +96,8 @@ int main() {
     // scale reading timer
     if ( now - tscale >= SCALE_READING_MS ) {
       tscale = now;
-      int r = hx711_read();
-      cJSON_SetNumberValue(raw, r);
+      uint32_t r = hx711_read();
+      put_raw_scale(r);
     }
 
   } // while (true)
