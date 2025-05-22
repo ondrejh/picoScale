@@ -62,7 +62,7 @@ else()
 
   project(${PROJECT_NAME})
 
-  set(SOURCES main.c data.c utils.c ${CJSON_PATH}/cJSON.c)
+  set(SOURCES main.c data.c utils.c simul.c ${CJSON_PATH}/cJSON.c)
 
   add_executable(${PROJECT_NAME} ${SOURCES})
 

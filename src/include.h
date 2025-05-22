@@ -24,6 +24,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <netinet/in.h>
+#include "simul.h"
 
 #endif // ifdef SIMUL
 

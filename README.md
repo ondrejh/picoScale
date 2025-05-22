@@ -12,9 +12,12 @@
 
 - [x] Build simulation for PC.
 - [x] Simulation server (TCP socket).
-- [ ] Tidy up simulation code.
+- [x] Tidy up simulation code.
   - less simulation code in main (move it somewhere)
+- [ ] One test function for hw and simulation.
   - common test routine with input parameter of com port or socket
+- [ ] Create the same inteface for hw and simulation.
+  - something like is_connected, read_input, write_output
 
 
 # Schematic
