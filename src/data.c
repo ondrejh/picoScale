@@ -29,7 +29,7 @@ void parse_json(const char *json_string) {
     printf("Age: %f\n", age->valuedouble);
   }
 
-  printf(cJSON_PrintUnformatted(json));
+  printf("%s\n", cJSON_PrintUnformatted(json));
   cJSON_Delete(json);
 }
 

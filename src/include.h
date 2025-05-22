@@ -18,7 +18,14 @@
 #include "ws2812.h"
 #include "hx711.h"
 
-#endif // ifndef SIMUL
+#else // ifndef SIMUL
+
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <netinet/in.h>
+
+#endif // ifdef SIMUL
 
 #include "cJSON.h"
 

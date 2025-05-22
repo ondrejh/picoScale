@@ -11,6 +11,10 @@
 - [x] Make standalone USB serial Hello World program.
 
 - [x] Build simulation for PC.
+- [x] Simulation server (TCP socket).
+- [ ] Tidy up simulation code.
+  - less simulation code in main (move it somewhere)
+  - common test routine with input parameter of com port or socket
 
 
 # Schematic
