@@ -94,7 +94,7 @@ int main() {
     }
 
     // scale reading timer
-    if ( now - tscale >= SCALE_READING_MS ) {
+    if (( now - tscale >= SCALE_READING_MS ) && (hx711_is_ready())) {
       tscale = now;
       uint32_t r = hx711_read();
       put_raw_scale(r);

@@ -9,6 +9,7 @@
 
 // Function prototypes
 void hx711_init();
+bool hx711_is_ready();
 uint32_t hx711_read();
 
 #endif // __HX711_H__

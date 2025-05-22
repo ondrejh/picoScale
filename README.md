@@ -2,7 +2,7 @@
 
 - [x] Connect scale sensor.
 - [x] Create global JSON data structure.
-- [ ] Test scale sensor, make it non-blocking.
+- [x] Test scale sensor, make it non-blocking.
 - [ ] Filter sensor data (either temp or scale)
 - [ ] Connect temperature sensor.
 - [x] Add sensors to json response.

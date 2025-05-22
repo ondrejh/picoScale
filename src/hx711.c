@@ -1,4 +1,4 @@
-#include "hx711.h"
+#include "include.h"
 
 // Initialize the HX711
 void hx711_init() {
@@ -9,6 +9,11 @@ void hx711_init() {
   gpio_set_dir(CLK_PIN, GPIO_OUT); // CLK is output
 
   gpio_put(CLK_PIN, 0); // enxure CLK is low
+}
+
+// Check if data is ready 
+bool hx711_is_ready() {
+  return !gpio_get(DOUT_PIN);
 }
 
 // Read the 24-bit data from the HX711
