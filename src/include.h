@@ -17,12 +17,12 @@
 #include "ws2812.pio.h"
 #include "ws2812.h"
 #include "hx711.h"
-#include "utils.h"
 
 #endif // ifndef SIMUL
 
 #include "cJSON.h"
 
+#include "utils.h"
 #include "data.h"
 
 

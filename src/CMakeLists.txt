@@ -27,6 +27,7 @@ if (BUILD_FOR_PICO)
   add_executable(${PROJECT_NAME}
     main.c
     data.c
+    utils.c
     ws2812.c
     ws2812.pio
     hx711.c
@@ -61,7 +62,7 @@ else()
 
   project(${PROJECT_NAME})
 
-  set(SOURCES main.c data.c ${CJSON_PATH}/cJSON.c)
+  set(SOURCES main.c data.c utils.c ${CJSON_PATH}/cJSON.c)
 
   add_executable(${PROJECT_NAME} ${SOURCES})
 
